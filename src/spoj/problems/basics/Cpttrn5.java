@@ -3,7 +3,7 @@
 Author	: 		Rémi Kaeffer
 Description : 	http://www.spoj.com/problems/CPTTRN4/
 ==========================================================
-STATUS : ???
+STATUS : AC 0.10s
  */
 package spoj.problems.basics;
 
@@ -25,40 +25,31 @@ public class Cpttrn5 {
 		int n = in.nextInt();
 		// in
 		while (n-- > 0) {
-			input.add(new Integer[3]);
+			input.add(new Integer[4]);
 			input.get(input.size() - 1)[0] = in.nextInt();
 			input.get(input.size() - 1)[1] = in.nextInt();
 			input.get(input.size() - 1)[2] = in.nextInt();
+			input.get(input.size() - 1)[3] = input.get(input.size() - 1)[2];
 		}
 		for (int i = 0; i < input.size(); i++) {
 			for (int j = 0; j < input.get(i)[0]*(input.get(i)[2]+1); j++) {
-				for (int k = 0; k < input.get(i)[1]*(input.get(i)[2]+1); k++) {
-					if(k%(input.get(i)[2]+1) == 0 || j%(input.get(i)[2]+1) == 0) {
+				for (int k = 0; k < input.get(i)[1]*(input.get(i)[3]+1); k++) {
+					if(j%(input.get(i)[2]+1)==0 || k%(input.get(i)[3]+1)==0) {
 						out.print('*');
 					} else {
-						if(Math.floor(k/(input.get(i)[2]+1))%2 == 0 && Math.floor(j/(input.get(i)[2]+1))%2 == 0) {
-							if(k%(input.get(i)[2]+1) + j%(input.get(i)[2]+1) == input.get(i)[2]+1) {
+						if((Math.floor(k/(input.get(i)[2]+1))%2 == 0 && Math.floor(j/(input.get(i)[2]+1))%2 == 0) || (Math.floor(k/(input.get(i)[2]+1))%2 == 1 && Math.floor(j/(input.get(i)[2]+1))%2 == 1)) {
+							if(input.get(i)[2] == 1) {
+								out.print('\\');
+							} else if(k%(input.get(i)[2]+1) != j%(input.get(i)[2]+1)) {
 								out.print('.');
 							} else {
 								out.print('\\');
 							}
-						} else if(Math.floor(k/(input.get(i)[2]+1))%2 == 1 && Math.floor(j/(input.get(i)[2]+1))%2 == 0) {
-							if(k%(input.get(i)[2]+1) == j%(input.get(i)[2]+1) + 1) {
+						} else if((Math.floor(k/(input.get(i)[2]+1))%2 == 1 && Math.floor(j/(input.get(i)[2]+1))%2 == 0) || (Math.floor(k/(input.get(i)[2]+1))%2 == 0 && Math.floor(j/(input.get(i)[2]+1))%2 == 1)) {
+							if(k%(input.get(i)[2]+1) + j%(input.get(i)[2]+1) != input.get(i)[2]+1) {
 								out.print('.');
 							} else {
 								out.print('/');
-							}
-						} else if(Math.floor(k/(input.get(i)[2]+1))%2 == 0 && Math.floor(j/(input.get(i)[2]+1))%2 == 1) {
-							if(k%(input.get(i)[2]+1) == j%(input.get(i)[2]+1) + 1) {
-								out.print('/');
-							} else {
-								out.print('.');
-							}
-						} else if(Math.floor(k/(input.get(i)[2]+1))%2 == 1 && Math.floor(j/(input.get(i)[2]+1))%2 == 1) {
-							if(k%(input.get(i)[2]+1) + j%(input.get(i)[2]+1) == input.get(i)[2]+1) {
-								out.print('.');
-							} else {
-								out.print('\\');
 							}
 						}
 					}
@@ -66,9 +57,10 @@ public class Cpttrn5 {
 				out.print('*');
 				out.printLine();
 			}
-			for (int j = 0; j < input.get(i)[1]*(input.get(i)[2]+1) +1; j++) {
+			for (int j = 0; j < input.get(i)[1]*(input.get(i)[3]+1); j++) {
 				out.print('*');
 			}
+			out.print('*');
 			out.printLine();
 			out.printLine();
 		}

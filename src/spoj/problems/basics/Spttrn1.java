@@ -16,13 +16,26 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Spttrn1 {
+	
+	private final static int LEFT_DIRECTION = 4;
+	private final static int BOTTOM_DIRECTION = 3;
+	private final static int RIGHT_DIRECTION = 2;
+	private final static int TOP_DIRECTION = 1;
+	
+	public Spttrn1() {
+		
+	}
+
 	public static void main(String[] args) throws Exception {
+		Spttrn1 spttrn1 = new Spttrn1();
 		ArrayList<Integer> input = new ArrayList<Integer>();
 		ArrayList<Character[][]> res = new ArrayList<Character[][]>();
 		FasterScanner in = new FasterScanner(System.in);
-		FasterOutput out = new FasterOutput(System.out);
+	
 		int n = in.nextInt();
 		// initialisation input
 		while (n-- > 0) {
@@ -30,61 +43,139 @@ public class Spttrn1 {
 		}
 		// initialisation des matrices
 		for (int i = 0; i < input.size(); i++) {
-			res.add(new Character[input.get(i)][]);
-			for (int j = 0; j < res.get(i).length; j++) {
-				res.get(i)[j] = new Character[input.get(i)];
-			}
-		}
-		// travail sur chacune des matrices
-		for (int i = 0; i < res.size(); i++) {
-			int posX = 0;
-			int posY = 2;
-			int direction = 1;
-			boolean stop = true;
-			for (int j = 0; j < input.get(i); j++) {
-				res.get(i)[0][j] = '*';
-				res.get(i)[input.get(i) - 1][j] = '*';
-				res.get(i)[j][input.get(i) - 1] = '*';
-				if (j == 1) {
-					res.get(i)[j][0] = '.';
-				} else {
-					res.get(i)[j][0] = '*';
+			int nb = input.get(i);
+			res.add(new Character[nb][nb]);
+			//Initialisation des matrices
+			for(int j = 0; j < nb; j++) {
+				for(int k = 0; k < nb; k++) {
+					res.get(i)[j][k] = '*';
 				}
 			}
-			/*
-			 * while(stop) { res.get(i)[posX][posY] = '*'; if(direction == 1) {
-			 * if(res.get(i)[posX+2][posY] == null) { posX++; } else {
-			 * if(res.get(i)[posX][posY+1] == null) { direction = 2; } else {
-			 * stop = false; } } } else if (direction == 2) {
-			 * if(res.get(i)[posX][posY+2] == null) { posY++; } else {
-			 * if(res.get(i)[posX-1][posY] == null) { direction = 3; } else {
-			 * stop = false; } } } else if (direction == 3) { if(posX-1 > 0 &&
-			 * res.get(i)[posX-2][posY] == null) { posX--; } else {
-			 * if(res.get(i)[posX][posY-1] == null) { direction = 4; } else {
-			 * stop = false; } } } else if (direction == 4) { if(posY-1 > 0 &&
-			 * res.get(i)[posX][posY-2] == null) { posY--; } else {
-			 * if(res.get(i)[posX+1][posY] == null) { direction = 1; } else {
-			 * stop = false; } } } }
-			 */
-			/*
-			 * for (int k = 0; k < input.get(i); k++) { for (int k2 = 0; k2 <
-			 * input.get(i); k2++) { if(res.get(i)[k][k2] == null) {
-			 * res.get(i)[k][k2] ='.'; } } }
-			 */
+			
+			SpiraleCursor sp = spttrn1.new SpiraleCursor(spttrn1.new MyEntry<Integer, Integer>(2, 1), RIGHT_DIRECTION, nb);
+			
+			boolean stop = true;
+			do {
+				
+			} while(stop);
+			
 		}
-		// impression des matrices
-		for (int i = 0; i < res.size(); i++) {
-			for (int j = 0; j < res.get(i).length; j++) {
-				for (int j2 = 0; j2 < res.get(i)[j].length; j2++) {
-					out.print(res.get(i)[j][j2]);
+		printResult(res);
+	}
+	
+	class SpiraleCursor {
+		
+		private MyEntry<Integer, Integer> cursorPosition;
+		private int direction;
+		private int squareSize;
+		private int countEnd = 0;
+		
+		public SpiraleCursor(MyEntry<Integer, Integer> cursorPosition, int direction, int squareSize) {
+			this.cursorPosition = cursorPosition;
+			this.direction = direction;
+			this.squareSize = squareSize;
+		}
+		
+		public boolean isEnd(boolean flag) {
+			if(flag) {
+				this.countEnd++;
+			} else {
+				this.countEnd = 0;
+			}
+			if(countEnd == 3) {
+				return true;
+			}
+			return false;
+		}
+		
+		//false si fin, true sinon
+		public boolean moveCursor() {
+			boolean flagEnd = false;
+			switch(direction) {
+				case BOTTOM_DIRECTION:			
+					if(cursorPosition.key + 2 > squareSize) {
+						if(cursorPosition.value - 2 < 0 ) {
+							flagEnd = true;
+						}
+						direction = BOTTOM_DIRECTION;
+					} else {
+						cursorPosition.key++;
+					}
+				case TOP_DIRECTION:
+					if(cursorPosition.key - 2 < 0) {
+						if(cursorPosition.value + 2 > squareSize ) {
+							flagEnd = true;
+						}
+						direction = BOTTOM_DIRECTION;
+					} else {
+						cursorPosition.key--;
+					}
+				case LEFT_DIRECTION:
+					if(cursorPosition.value - 2 < 0) {
+						if(cursorPosition.key - 2 < 0 ) {
+							flagEnd = true;
+						}
+						direction = TOP_DIRECTION;
+					} else {
+						
+					}
+				default:
+					if(cursorPosition.value + 2 > squareSize) {
+						if(cursorPosition.key + 2 > squareSize ) {
+							flagEnd = true;
+						}
+						direction = BOTTOM_DIRECTION;
+					} else {
+						
+					}
+			}
+			if(isEnd(flagEnd)) {
+				return false;
+			}
+			return true;
+		}
+		
+	}
+	
+	public class MyEntry<K, V> implements Entry<K, V> {
+	    private K key;
+	    private V value;
+	    public MyEntry(K key) {
+	        this.key = key;
+	    }
+	    public MyEntry(K key, final V value) {
+	        this.key = key;
+	        this.value = value;
+	    }
+	    public K getKey() {
+	        return key;
+	    }
+	    public V getValue() {
+	        return value;
+	    }
+	    public V setValue(V value) {
+	        V oldValue = this.value;
+	        this.value = value;
+	        return oldValue;
+	    }
+	}
+	
+	private static void printResult(ArrayList<Character[][]> toPrint) {
+		FasterOutput out = new FasterOutput(System.out);
+		for (int i = 0; i < toPrint.size(); i++) {
+			Character[][] line = toPrint.get(i);
+			int nb = line.length;
+			for(int j = 0; j < nb; j++) {
+				for(int k = 0; k < nb; k++) {
+					out.print(line[j][k]);
 				}
 				out.printLine();
 			}
 			out.printLine();
 		}
-
 		out.flush();
 		out.close();
+		
 	}
 
 	static class FasterScanner {

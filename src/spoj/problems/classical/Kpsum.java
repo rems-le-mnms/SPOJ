@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Kpsum {
-	static Map<Integer, Couple> a = new HashMap<Integer, Couple>();
+	//static Map<Integer, Couple> a = new HashMap<Integer, Couple>();
 
 	/*public static void main(String[] args) throws Exception {
 		FasterScanner in = new FasterScanner();
