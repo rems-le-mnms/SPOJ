@@ -1,9 +1,9 @@
 /*
 ==========================================================
 Author	: 		Rémi Kaeffer
-Description : 	http://www.spoj.com/problems/SPTTRN1/
+Description : 	http://www.spoj.com/problems/SPTTRN2/
 ==========================================================
-STATUS : AC in 0.11s 
+STATUS : AC in 0.10s
  */
 package spoj.problems.basics;
 
@@ -19,7 +19,7 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Spttrn1 {
+public class Spttrn2 {
 	
 	private final static int LEFT_DIRECTION = 4;
 	private final static int BOTTOM_DIRECTION = 3;
@@ -29,12 +29,12 @@ public class Spttrn1 {
 	private final static Character STAR = '*';
 	private final static Character DOT = '.';
 	
-	public Spttrn1() {
+	public Spttrn2() {
 		
 	}
 
 	public static void main(String[] args) throws Exception {
-		Spttrn1 spttrn1 = new Spttrn1();
+		Spttrn2 spttrn1 = new Spttrn2();
 		ArrayList<Integer> input = new ArrayList<Integer>();
 		ArrayList<Character[][]> res = new ArrayList<Character[][]>();
 		FasterScanner in = new FasterScanner(System.in);
@@ -55,7 +55,7 @@ public class Spttrn1 {
 				}
 			}
 			
-			SpiraleCursor sp = spttrn1.new SpiraleCursor(spttrn1.new MyEntry<Integer, Integer>(1, 0), RIGHT_DIRECTION, nb);
+			SpiraleCursor sp = spttrn1.new SpiraleCursor(spttrn1.new MyEntry<Integer, Integer>(0, 1), BOTTOM_DIRECTION, nb);
 			
 			boolean stop = true;
 			do {
@@ -100,7 +100,7 @@ public class Spttrn1 {
 				case BOTTOM_DIRECTION:			
 					if(key + 2 > squareSize || (key + 2 <= squareSize && (matrix[key + 1][value].equals(DOT) || matrix[key + 2][value].equals(DOT)))) {
 						flagEnd = true;
-						this.direction = LEFT_DIRECTION;
+						this.direction = RIGHT_DIRECTION;
 					} else {
 						this.cursorPosition.key++;
 					}
@@ -108,7 +108,7 @@ public class Spttrn1 {
 				case TOP_DIRECTION:
 					if(key - 2 < 0 || (key - 2 >= 0 && (matrix[key - 1][value].equals(DOT) ||matrix[key - 2][value].equals(DOT)))) {
 						flagEnd = true;
-						this.direction = RIGHT_DIRECTION;
+						this.direction = LEFT_DIRECTION;
 					} else {
 						this.cursorPosition.key--;
 					}
@@ -116,7 +116,7 @@ public class Spttrn1 {
 				case LEFT_DIRECTION:
 					if(value - 2 < 0 || (value - 2 >= 0 && (matrix[key][value - 1].equals(DOT) || matrix[key][value - 2].equals(DOT)))) {
 						flagEnd = true;
-						this.direction = TOP_DIRECTION;
+						this.direction = BOTTOM_DIRECTION;
 					} else {
 						this.cursorPosition.value--;
 					}
@@ -124,7 +124,7 @@ public class Spttrn1 {
 				default:
 					if(value + 2 > squareSize || (value + 2 <= squareSize && (matrix[key][value + 1].equals(DOT) || matrix[key][value + 2].equals(DOT))))  {		
 						flagEnd = true;
-						this.direction = BOTTOM_DIRECTION;
+						this.direction = TOP_DIRECTION;
 					} else {
 						this.cursorPosition.value++;
 					}

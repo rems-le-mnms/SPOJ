@@ -16,10 +16,9 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Map.Entry;
 
-public class Spttrn1 {
+public class Spttrn3 {
 	
 	private final static int LEFT_DIRECTION = 4;
 	private final static int BOTTOM_DIRECTION = 3;
@@ -29,12 +28,12 @@ public class Spttrn1 {
 	private final static Character STAR = '*';
 	private final static Character DOT = '.';
 	
-	public Spttrn1() {
+	public Spttrn3() {
 		
 	}
 
 	public static void main(String[] args) throws Exception {
-		Spttrn1 spttrn1 = new Spttrn1();
+		Spttrn3 spttrn1 = new Spttrn3();
 		ArrayList<Integer> input = new ArrayList<Integer>();
 		ArrayList<Character[][]> res = new ArrayList<Character[][]>();
 		FasterScanner in = new FasterScanner(System.in);
